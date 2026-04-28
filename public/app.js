@@ -12,6 +12,8 @@ const els = {
   summaryScope: document.querySelector("#summaryScope"),
   chargedEnergy: document.querySelector("#chargedEnergy"),
   dischargedEnergy: document.querySelector("#dischargedEnergy"),
+  chargePower: document.querySelector("#chargePower"),
+  dischargePower: document.querySelector("#dischargePower"),
   bestSpread: document.querySelector("#bestSpread"),
   batteryCycles: document.querySelector("#batteryCycles"),
   breakEven: document.querySelector("#breakEven"),
@@ -191,15 +193,18 @@ function simulate(points) {
   const config = currentConfig();
   const days = Object.values(groupByDate(points));
   const daily = days.map((day) => simulateDay(day, config));
+  const rows = daily.flatMap((day) => day.rows);
   return {
     config,
     daily,
-    rows: daily.flatMap((day) => day.rows),
+    rows,
     totalProfit: daily.reduce((sum, day) => sum + day.profit, 0),
     charged: daily.reduce((sum, day) => sum + day.charged, 0),
     discharged: daily.reduce((sum, day) => sum + day.discharged, 0),
     batteryDischarge: daily.reduce((sum, day) => sum + day.batteryDischarge, 0),
     cycles: daily.reduce((sum, day) => sum + day.cycles, 0),
+    maxChargePower: Math.max(0, ...rows.map((row) => Math.max(0, -row.powerKw))),
+    maxDischargePower: Math.max(0, ...rows.map((row) => Math.max(0, row.powerKw))),
     bestSpread: Math.max(0, ...daily.map((day) => day.spread)),
   };
 }
@@ -213,6 +218,8 @@ function summarize(daily, rows) {
     discharged: daily.reduce((sum, day) => sum + day.discharged, 0),
     batteryDischarge: daily.reduce((sum, day) => sum + day.batteryDischarge, 0),
     cycles: daily.reduce((sum, day) => sum + day.cycles, 0),
+    maxChargePower: Math.max(0, ...rows.map((row) => Math.max(0, -row.powerKw))),
+    maxDischargePower: Math.max(0, ...rows.map((row) => Math.max(0, row.powerKw))),
     bestSpread: Math.max(0, ...daily.map((day) => day.spread)),
   };
 }
@@ -469,6 +476,8 @@ function renderSummary(result) {
   els.totalProfit.textContent = eur(result.totalProfit, 2);
   els.chargedEnergy.textContent = `${number(result.charged, 1)} kWh`;
   els.dischargedEnergy.textContent = `${number(result.discharged, 1)} kWh`;
+  els.chargePower.textContent = `${number(result.maxChargePower, 1)} kW`;
+  els.dischargePower.textContent = `${number(result.maxDischargePower, 1)} kW`;
   els.bestSpread.textContent = `${eur(result.bestSpread, 0)}/MWh`;
   els.batteryCycles.textContent = number(result.cycles, 1);
   els.breakEven.textContent = Number.isFinite(breakEvenYears) ? `${number(breakEvenYears, 1)} yrs` : "-";

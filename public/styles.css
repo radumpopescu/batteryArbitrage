@@ -87,7 +87,6 @@ h1 {
 
 .hero-card,
 .component,
-.summary-grid article,
 .chart-panel,
 .config-card {
   border: 1px solid var(--line);
@@ -106,7 +105,7 @@ h1 {
 }
 
 .hero-card span,
-.summary-grid span,
+.metric-cell span,
 .config-card span,
 label span,
 .zoom-band span {
@@ -124,13 +123,65 @@ label span,
   line-height: 1;
 }
 
-.controls {
+.controls-card {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
-  gap: 12px;
-  align-items: end;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  align-items: stretch;
   margin-bottom: 14px;
-  padding: 14px;
+  padding: 16px;
+}
+
+.controls-card > #runButton {
+  justify-self: end;
+  width: min(220px, 100%);
+}
+
+.control-group {
+  min-width: 0;
+}
+
+.group-label {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--ink);
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.control-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  align-items: end;
+}
+
+.control-group:first-child .control-row {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.asset-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.asset-card {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fcfdff;
+}
+
+.asset-card > strong {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.asset-card .control-row {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 label span {
@@ -150,6 +201,46 @@ input {
   background: var(--field);
   color: var(--ink);
   padding: 0 11px;
+}
+
+.money-field {
+  position: relative;
+}
+
+.money-field input {
+  padding-left: 28px;
+  font-weight: 750;
+}
+
+.money-field::after {
+  position: absolute;
+  left: 11px;
+  bottom: 11px;
+  color: var(--muted);
+  content: "€";
+  font-weight: 800;
+}
+
+.investment-pill {
+  min-height: 42px;
+  padding: 8px 12px;
+  border: 1px solid rgba(22, 130, 95, 0.28);
+  border-radius: 6px;
+  background: #fbfffd;
+}
+
+.investment-pill span {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.investment-pill strong {
+  display: block;
+  font-size: 1.02rem;
+  line-height: 1;
 }
 
 button {
@@ -172,19 +263,32 @@ button.secondary {
   color: var(--ink);
 }
 
-.summary-grid {
+.metrics-panel {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
   margin-bottom: 14px;
+  padding: 0;
 }
 
-.summary-grid article,
+.metric-cell,
 .config-card {
   padding: 16px;
 }
 
-.summary-grid strong,
+.metric-cell + .metric-cell {
+  border-left: 1px solid var(--line);
+}
+
+.metric-cell:nth-child(4n + 1) {
+  border-left: 0;
+}
+
+.metric-cell:nth-child(n + 5) {
+  border-top: 1px solid var(--line);
+}
+
+.metric-cell strong,
 .config-card strong {
   display: block;
   margin-top: 7px;
@@ -242,44 +346,8 @@ button.secondary {
 
 .config-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
-}
-
-.cost-field {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 8px;
-  align-items: center;
-  margin-top: 8px;
-  min-height: 48px;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background: var(--field);
-  padding: 0 10px;
-}
-
-.cost-field small {
-  color: var(--muted);
-  font-weight: 700;
-}
-
-.cost-field input {
-  min-height: 46px;
-  border: 0;
-  background: transparent;
-  padding: 0;
-  font-size: clamp(1.3rem, 2vw, 1.9rem);
-  font-weight: 800;
-}
-
-.input-card {
-  padding: 14px;
-}
-
-.result-card {
-  border-color: rgba(22, 130, 95, 0.35);
-  background: #fbfffd;
 }
 
 @media (max-width: 900px) {
@@ -289,8 +357,20 @@ button.secondary {
     flex-direction: column;
   }
 
-  .summary-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .metrics-panel {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .metric-cell {
+    border-top: 1px solid var(--line);
+  }
+
+  .metric-cell:nth-child(-n + 2) {
+    border-top: 0;
+  }
+
+  .metric-cell:nth-child(2n + 1) {
+    border-left: 0;
   }
 
   .config-grid {
@@ -299,6 +379,14 @@ button.secondary {
 
   .zoom-band {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .controls-card {
+    grid-template-columns: 1fr;
+  }
+
+  .asset-grid {
+    grid-template-columns: 1fr;
   }
 
   .plot {
@@ -315,9 +403,19 @@ button.secondary {
     padding: 16px;
   }
 
-  .summary-grid,
+  .metrics-panel,
   .config-grid,
   .zoom-band {
     grid-template-columns: 1fr;
+  }
+
+  .metric-cell,
+  .metric-cell:nth-child(n) {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .metric-cell:first-child {
+    border-top: 0;
   }
 }

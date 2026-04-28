@@ -27,58 +27,103 @@
             <span id="statusLabel">Ready</span>
             <strong id="headlineProfit">EUR 0</strong>
           </div>
+        </section>
+
+        <section class="component controls-card" aria-label="Simulation controls">
+          <div class="control-group">
+            <span class="group-label">Period</span>
+            <div class="control-row">
+              <label>
+                <span>Start</span>
+                <input id="startDate" type="date">
+              </label>
+              <label>
+                <span>End</span>
+                <input id="endDate" type="date">
+              </label>
+              <button id="yearButton" class="secondary" type="button">365 days</button>
+            </div>
+          </div>
+          <div class="control-group">
+            <span class="group-label">Assets</span>
+            <div class="asset-grid">
+              <article class="asset-card">
+                <strong>Inverter</strong>
+                <div class="control-row">
+                  <label>
+                    <span>Power kW</span>
+                    <input id="powerKw" type="number" min="0.1" step="0.1" value="5">
+                  </label>
+                  <label class="money-field">
+                    <span>Price</span>
+                    <input id="inverterCost" type="number" min="0" step="50" value="1000">
+                  </label>
+                </div>
+              </article>
+              <article class="asset-card">
+                <strong>Battery</strong>
+                <div class="control-row">
+                  <label>
+                    <span>Capacity kWh</span>
+                    <input id="capacityKwh" type="number" min="0.1" step="0.1" value="15">
+                  </label>
+                  <label class="money-field">
+                    <span>Price</span>
+                    <input id="batteryCost" type="number" min="0" step="50" value="2000">
+                  </label>
+                </div>
+              </article>
+              <article class="asset-card">
+                <strong>Assumptions</strong>
+                <div class="control-row">
+                  <label>
+                    <span>Efficiency %</span>
+                    <input id="efficiency" type="number" min="50" max="100" step="1" value="90">
+                  </label>
+                  <div class="investment-pill">
+                    <span>Investment</span>
+                    <strong id="capexValue">EUR 0</strong>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
           <button id="runButton" type="button">Run simulation</button>
         </section>
 
-        <section class="component controls" aria-label="Simulation controls">
-          <label>
-            <span>Start</span>
-            <input id="startDate" type="date">
-          </label>
-          <label>
-            <span>End</span>
-            <input id="endDate" type="date">
-          </label>
-          <label>
-            <span>Inverter kW</span>
-            <input id="powerKw" type="number" min="0.1" step="0.1" value="5">
-          </label>
-          <label>
-            <span>Battery kWh</span>
-            <input id="capacityKwh" type="number" min="0.1" step="0.1" value="15">
-          </label>
-          <label>
-            <span>Efficiency %</span>
-            <input id="efficiency" type="number" min="50" max="100" step="1" value="90">
-          </label>
-          <button id="yearButton" class="secondary" type="button">365 days</button>
-        </section>
-
-        <section class="summary-grid" aria-label="Simulation summary">
-          <article>
+        <section class="component metrics-panel" aria-label="Simulation summary">
+          <div class="metric-cell">
             <span id="summaryScope">Profit</span>
             <strong id="totalProfit">EUR 0</strong>
-          </article>
-          <article>
+          </div>
+          <div class="metric-cell">
             <span>Charge</span>
             <strong id="chargedEnergy">0 kWh</strong>
-          </article>
-          <article>
+          </div>
+          <div class="metric-cell">
             <span>Discharge</span>
             <strong id="dischargedEnergy">0 kWh</strong>
-          </article>
-          <article>
+          </div>
+          <div class="metric-cell">
+            <span>Charge power</span>
+            <strong id="chargePower">0 kW</strong>
+          </div>
+          <div class="metric-cell">
+            <span>Discharge power</span>
+            <strong id="dischargePower">0 kW</strong>
+          </div>
+          <div class="metric-cell">
             <span>Best spread</span>
             <strong id="bestSpread">EUR 0/MWh</strong>
-          </article>
-          <article>
+          </div>
+          <div class="metric-cell">
             <span>Battery cycles</span>
             <strong id="batteryCycles">0</strong>
-          </article>
-          <article>
+          </div>
+          <div class="metric-cell">
             <span>Break-even</span>
             <strong id="breakEven">-</strong>
-          </article>
+          </div>
         </section>
 
         <section class="component zoom-band" aria-label="Chart zoom controls">
@@ -122,24 +167,6 @@
 
       <section id="configView" class="view" hidden>
         <section class="config-grid">
-          <article class="config-card input-card">
-            <span>Inverter</span>
-            <label class="cost-field">
-              <small>€</small>
-              <input id="inverterCost" type="number" min="0" step="50" value="1000">
-            </label>
-          </article>
-          <article class="config-card input-card">
-            <span>Battery</span>
-            <label class="cost-field">
-              <small>€</small>
-              <input id="batteryCost" type="number" min="0" step="50" value="2000">
-            </label>
-          </article>
-          <article class="config-card result-card">
-            <span>Investment</span>
-            <strong id="capexValue">EUR 0</strong>
-          </article>
           <article class="config-card">
             <span>Cached</span>
             <strong id="cacheSummary">Checking...</strong>
