@@ -2,9 +2,9 @@ services:
   battery-simulator:
     build: .
     ports:
-      - "4173:4173"
+      - "5174:5174"
     environment:
-      PORT: "4173"
+      PORT: "5174"
     volumes:
       - ./data:/app/data
     restart: unless-stopped

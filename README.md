@@ -8,7 +8,7 @@ A small local simulator for charging a battery during cheap Romanian PZU / OPCOM
 node server.js
 ```
 
-Then open `http://localhost:4173`.
+Then open `http://localhost:5174`.
 
 ## Docker
 
@@ -16,7 +16,7 @@ Then open `http://localhost:4173`.
 docker compose up --build
 ```
 
-The app is served on `http://localhost:4173`. Downloaded OPCOM CSV files are saved to `./data` next to `compose.yml`.
+The app is served on `http://localhost:5174`. Downloaded OPCOM CSV files are saved to `./data` next to `compose.yml`.
 
 ## Data
 

@@ -6,7 +6,7 @@ const path = require("node:path");
 const root = __dirname;
 const publicDir = path.join(root, "public");
 const cacheDir = path.join(root, "data", "opcom-pzu");
-const port = Number(process.env.PORT || 4173);
+const port = Number(process.env.PORT || 5174);
 const maxDays = 366;
 const opcomCache = new Map();
 
