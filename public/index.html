@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Romania Battery Simulator</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" defer></script>
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <span class="eyebrow">Romania PZU</span>
+          <h1>Battery arbitrage</h1>
+        </div>
+        <nav class="tabs" aria-label="Views">
+          <button id="simTab" class="tab active" type="button">Simulator</button>
+          <button id="configTab" class="tab" type="button">Config</button>
+        </nav>
+      </header>
+
+      <section id="simView" class="view">
+        <section class="hero-card">
+          <div>
+            <span id="statusLabel">Ready</span>
+            <strong id="headlineProfit">EUR 0</strong>
+          </div>
+          <button id="runButton" type="button">Run simulation</button>
+        </section>
+
+        <section class="component controls" aria-label="Simulation controls">
+          <label>
+            <span>Start</span>
+            <input id="startDate" type="date">
+          </label>
+          <label>
+            <span>End</span>
+            <input id="endDate" type="date">
+          </label>
+          <label>
+            <span>Inverter kW</span>
+            <input id="powerKw" type="number" min="0.1" step="0.1" value="5">
+          </label>
+          <label>
+            <span>Battery kWh</span>
+            <input id="capacityKwh" type="number" min="0.1" step="0.1" value="15">
+          </label>
+          <label>
+            <span>Efficiency %</span>
+            <input id="efficiency" type="number" min="50" max="100" step="1" value="90">
+          </label>
+          <button id="yearButton" class="secondary" type="button">365 days</button>
+        </section>
+
+        <section class="summary-grid" aria-label="Simulation summary">
+          <article>
+            <span id="summaryScope">Profit</span>
+            <strong id="totalProfit">EUR 0</strong>
+          </article>
+          <article>
+            <span>Charge</span>
+            <strong id="chargedEnergy">0 kWh</strong>
+          </article>
+          <article>
+            <span>Discharge</span>
+            <strong id="dischargedEnergy">0 kWh</strong>
+          </article>
+          <article>
+            <span>Best spread</span>
+            <strong id="bestSpread">EUR 0/MWh</strong>
+          </article>
+          <article>
+            <span>Battery cycles</span>
+            <strong id="batteryCycles">0</strong>
+          </article>
+          <article>
+            <span>Break-even</span>
+            <strong id="breakEven">-</strong>
+          </article>
+        </section>
+
+        <section class="component zoom-band" aria-label="Chart zoom controls">
+          <div>
+            <span>Period</span>
+            <strong id="zoomLabel">Full simulation</strong>
+          </div>
+          <label>
+            <span>From</span>
+            <input id="zoomStart" type="date">
+          </label>
+          <label>
+            <span>To</span>
+            <input id="zoomEnd" type="date">
+          </label>
+          <button id="applyZoom" class="secondary" type="button">Zoom</button>
+          <button id="resetZoom" type="button">Reset</button>
+        </section>
+
+        <section class="chart-stack">
+          <div class="chart-panel">
+            <div class="panel-head">
+              <h2>Price / SOC</h2>
+            </div>
+            <div id="priceSocChart" class="plot"></div>
+          </div>
+          <div class="chart-panel">
+            <div class="panel-head">
+              <h2>Power</h2>
+            </div>
+            <div id="powerChart" class="plot short"></div>
+          </div>
+          <div class="chart-panel">
+            <div class="panel-head">
+              <h2>Profit</h2>
+            </div>
+            <div id="profitChart" class="plot short"></div>
+          </div>
+        </section>
+      </section>
+
+      <section id="configView" class="view" hidden>
+        <section class="config-grid">
+          <article class="config-card input-card">
+            <span>Inverter</span>
+            <label class="cost-field">
+              <small>€</small>
+              <input id="inverterCost" type="number" min="0" step="50" value="1000">
+            </label>
+          </article>
+          <article class="config-card input-card">
+            <span>Battery</span>
+            <label class="cost-field">
+              <small>€</small>
+              <input id="batteryCost" type="number" min="0" step="50" value="2000">
+            </label>
+          </article>
+          <article class="config-card result-card">
+            <span>Investment</span>
+            <strong id="capexValue">EUR 0</strong>
+          </article>
+          <article class="config-card">
+            <span>Cached</span>
+            <strong id="cacheSummary">Checking...</strong>
+          </article>
+          <article class="config-card">
+            <span>Run data</span>
+            <strong id="cacheRun">No run yet</strong>
+          </article>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>
